@@ -258,8 +258,6 @@
   "use strict";
 
   // ---------- landmark pool: prominent images with coords for geo lookup ----------
-  // Curated base pool. On top of this, the app discovers extra places live from
-  // Wikipedia (geosearch around random points on Earth) — see DISCOVERED below.
   const LANDMARKS = [
     { t: "Eiffel Tower",        kicker: "Building",   place: "Paris, France" },
     { t: "Colosseum",           kicker: "Landmark",   place: "Rome, Italy" },
@@ -291,123 +289,119 @@
     { t: "Notre-Dame de Paris", kicker: "Cathedral",  place: "Paris, France" },
     { t: "St. Basil's Cathedral", kicker: "Cathedral",place: "Moscow, Russia" },
     { t: "Pantheon, Rome",      kicker: "Temple",     place: "Rome, Italy" },
-    { t: "Millau Viaduct",        kicker: "Bridge",     place: "Tarn, France" },
-    { t: "Akashi Kaikyo Bridge",  kicker: "Bridge",     place: "Kobe, Japan" },
-    { t: "Brooklyn Bridge",       kicker: "Bridge",     place: "New York, USA" },
-    { t: "Sydney Harbour Bridge", kicker: "Bridge",     place: "Sydney, Australia" },
-    { t: "Rialto Bridge",         kicker: "Bridge",     place: "Venice, Italy" },
-    { t: "Ponte Vecchio",         kicker: "Bridge",     place: "Florence, Italy" },
-    { t: "Hoover Dam",            kicker: "Dam",        place: "Nevada–Arizona, USA" },
-    { t: "Three Gorges Dam",      kicker: "Dam",        place: "Hubei, China" },
-    { t: "Itaipu Dam",            kicker: "Dam",        place: "Brazil–Paraguay border" },
-    { t: "Edinburgh Castle",      kicker: "Castle",     place: "Edinburgh, Scotland" },
-    { t: "Himeji Castle",         kicker: "Castle",     place: "Hyōgo, Japan" },
-    { t: "Château de Chambord",   kicker: "Castle",     place: "Loire Valley, France" },
-    { t: "Prague Castle",         kicker: "Castle",     place: "Prague, Czechia" },
-    { t: "Malbork Castle",        kicker: "Castle",     place: "Malbork, Poland" },
-    { t: "Windsor Castle",        kicker: "Castle",     place: "Windsor, England" },
-    { t: "Krak des Chevaliers",   kicker: "Castle",     place: "Homs, Syria" },
-    { t: "Eilean Donan",          kicker: "Castle",     place: "Scottish Highlands, UK" },
-    { t: "Forbidden City",        kicker: "Palace",     place: "Beijing, China" },
-    { t: "Potala Palace",         kicker: "Palace",     place: "Lhasa, Tibet" },
-    { t: "Winter Palace",         kicker: "Palace",     place: "Saint Petersburg, Russia" },
-    { t: "Palace of Versailles",  kicker: "Palace",     place: "Versailles, France" },
-    { t: "Topkapi Palace",        kicker: "Palace",     place: "Istanbul, Türkiye" },
-    { t: "Fushimi Inari-taisha",  kicker: "Shrine",     place: "Kyoto, Japan" },
-    { t: "Kinkaku-ji",            kicker: "Temple",     place: "Kyoto, Japan" },
-    { t: "Tōdai-ji",              kicker: "Temple",     place: "Nara, Japan" },
-    { t: "Borobudur",             kicker: "Temple",     place: "Central Java, Indonesia" },
-    { t: "Prambanan",             kicker: "Temple",     place: "Central Java, Indonesia" },
-    { t: "Golden Temple",         kicker: "Temple",     place: "Amritsar, India" },
-    { t: "Meenakshi Temple",      kicker: "Temple",     place: "Madurai, India" },
-    { t: "Lotus Temple",          kicker: "Temple",     place: "Delhi, India" },
-    { t: "Wat Arun",              kicker: "Temple",     place: "Bangkok, Thailand" },
-    { t: "Temple of Heaven",      kicker: "Temple",     place: "Beijing, China" },
-    { t: "Luxor Temple",          kicker: "Temple",     place: "Luxor, Egypt" },
-    { t: "Karnak",                kicker: "Temple",     place: "Luxor, Egypt" },
-    { t: "Abu Simbel",            kicker: "Monument",   place: "Aswan, Egypt" },
-    { t: "Masada",                kicker: "Fortress",   place: "Israel" },
-    { t: "Dome of the Rock",      kicker: "Shrine",     place: "Jerusalem" },
-    { t: "Sultan Ahmed Mosque",   kicker: "Mosque",     place: "Istanbul, Türkiye" },
+    { t: "Millau Viaduct",      kicker: "Bridge",     place: "Tarn, France" },
+    { t: "Akashi Kaikyo Bridge",kicker: "Bridge",     place: "Kobe, Japan" },
+    { t: "Brooklyn Bridge",     kicker: "Bridge",     place: "New York, USA" },
+    { t: "Sydney Harbour Bridge",kicker: "Bridge",    place: "Sydney, Australia" },
+    { t: "Rialto Bridge",       kicker: "Bridge",     place: "Venice, Italy" },
+    { t: "Ponte Vecchio",       kicker: "Bridge",     place: "Florence, Italy" },
+    { t: "Hoover Dam",          kicker: "Dam",        place: "Nevada–Arizona, USA" },
+    { t: "Three Gorges Dam",    kicker: "Dam",        place: "Hubei, China" },
+    { t: "Itaipu Dam",          kicker: "Dam",        place: "Brazil–Paraguay border" },
+    { t: "Edinburgh Castle",    kicker: "Castle",     place: "Edinburgh, Scotland" },
+    { t: "Himeji Castle",       kicker: "Castle",     place: "Hyōgo, Japan" },
+    { t: "Château de Chambord", kicker: "Castle",     place: "Loire Valley, France" },
+    { t: "Prague Castle",       kicker: "Castle",     place: "Prague, Czechia" },
+    { t: "Malbork Castle",      kicker: "Castle",     place: "Malbork, Poland" },
+    { t: "Windsor Castle",      kicker: "Castle",     place: "Windsor, England" },
+    { t: "Krak des Chevaliers", kicker: "Castle",     place: "Homs, Syria" },
+    { t: "Eilean Donan",        kicker: "Castle",     place: "Scottish Highlands, UK" },
+    { t: "Forbidden City",      kicker: "Palace",     place: "Beijing, China" },
+    { t: "Potala Palace",       kicker: "Palace",     place: "Lhasa, Tibet" },
+    { t: "Winter Palace",       kicker: "Palace",     place: "Saint Petersburg, Russia" },
+    { t: "Palace of Versailles",kicker: "Palace",     place: "Versailles, France" },
+    { t: "Topkapi Palace",      kicker: "Palace",     place: "Istanbul, Türkiye" },
+    { t: "Fushimi Inari-taisha",kicker: "Shrine",     place: "Kyoto, Japan" },
+    { t: "Kinkaku-ji",          kicker: "Temple",     place: "Kyoto, Japan" },
+    { t: "Tōdai-ji",            kicker: "Temple",     place: "Nara, Japan" },
+    { t: "Borobudur",           kicker: "Temple",     place: "Central Java, Indonesia" },
+    { t: "Prambanan",           kicker: "Temple",     place: "Central Java, Indonesia" },
+    { t: "Golden Temple",       kicker: "Temple",     place: "Amritsar, India" },
+    { t: "Meenakshi Temple",    kicker: "Temple",     place: "Madurai, India" },
+    { t: "Lotus Temple",        kicker: "Temple",     place: "Delhi, India" },
+    { t: "Wat Arun",            kicker: "Temple",     place: "Bangkok, Thailand" },
+    { t: "Temple of Heaven",    kicker: "Temple",     place: "Beijing, China" },
+    { t: "Luxor Temple",        kicker: "Temple",     place: "Luxor, Egypt" },
+    { t: "Karnak",              kicker: "Temple",     place: "Luxor, Egypt" },
+    { t: "Abu Simbel",          kicker: "Monument",   place: "Aswan, Egypt" },
+    { t: "Masada",              kicker: "Fortress",   place: "Israel" },
+    { t: "Dome of the Rock",    kicker: "Shrine",     place: "Jerusalem" },
+    { t: "Sultan Ahmed Mosque", kicker: "Mosque",     place: "Istanbul, Türkiye" },
     { t: "Sheikh Zayed Grand Mosque", kicker: "Mosque", place: "Abu Dhabi, UAE" },
     { t: "Rock-Hewn Churches, Lalibela", kicker: "Churches", place: "Lalibela, Ethiopia" },
-    { t: "Florence Cathedral",    kicker: "Cathedral",  place: "Florence, Italy" },
-    { t: "Milan Cathedral",       kicker: "Cathedral",  place: "Milan, Italy" },
-    { t: "Cologne Cathedral",     kicker: "Cathedral",  place: "Cologne, Germany" },
-    { t: "Salisbury Cathedral",   kicker: "Cathedral",  place: "Wiltshire, England" },
-    { t: "Westminster Abbey",     kicker: "Church",     place: "London, England" },
-    { t: "St. Peter's Basilica",  kicker: "Basilica",   place: "Vatican City" },
-    { t: "Mont-Saint-Michel",     kicker: "Island abbey", place: "Normandy, France" },
-    { t: "CN Tower",              kicker: "Tower",      place: "Toronto, Canada" },
-    { t: "Shanghai Tower",        kicker: "Skyscraper", place: "Shanghai, China" },
-    { t: "Taipei 101",            kicker: "Skyscraper", place: "Taipei, Taiwan" },
+    { t: "Florence Cathedral",  kicker: "Cathedral",  place: "Florence, Italy" },
+    { t: "Milan Cathedral",     kicker: "Cathedral",  place: "Milan, Italy" },
+    { t: "Cologne Cathedral",   kicker: "Cathedral",  place: "Cologne, Germany" },
+    { t: "Salisbury Cathedral", kicker: "Cathedral",  place: "Wiltshire, England" },
+    { t: "Westminster Abbey",   kicker: "Church",     place: "London, England" },
+    { t: "St. Peter's Basilica",kicker: "Basilica",   place: "Vatican City" },
+    { t: "Mont-Saint-Michel",   kicker: "Island abbey", place: "Normandy, France" },
+    { t: "CN Tower",            kicker: "Tower",      place: "Toronto, Canada" },
+    { t: "Shanghai Tower",      kicker: "Skyscraper", place: "Shanghai, China" },
+    { t: "Taipei 101",          kicker: "Skyscraper", place: "Taipei, Taiwan" },
     { t: "Empire State Building", kicker: "Skyscraper", place: "New York, USA" },
-    { t: "Willis Tower",          kicker: "Skyscraper", place: "Chicago, USA" },
-    { t: "Merdeka 118",           kicker: "Skyscraper", place: "Kuala Lumpur, Malaysia" },
-    { t: "Lotte World Tower",     kicker: "Skyscraper", place: "Seoul, South Korea" },
-    { t: "Lakhta Center",         kicker: "Skyscraper", place: "Saint Petersburg, Russia" },
-    { t: "Mount Everest",         kicker: "Mountain",   place: "Nepal–China border" },
-    { t: "K2",                    kicker: "Mountain",   place: "Pakistan–China border" },
-    { t: "Matterhorn",            kicker: "Mountain",   place: "Switzerland–Italy border" },
-    { t: "Denali",                kicker: "Mountain",   place: "Alaska, USA" },
-    { t: "Uluru",                 kicker: "Monolith",   place: "Northern Territory, Australia" },
-    { t: "Mount Rainier",         kicker: "Mountain",   place: "Washington, USA" },
-    { t: "Mont Blanc",            kicker: "Mountain",   place: "France–Italy border" },
-    { t: "Hạ Long Bay",           kicker: "Bay",        place: "Quảng Ninh, Vietnam" },
-    { t: "Santorini",             kicker: "Island",     place: "Cyclades, Greece" },
-    { t: "Bora Bora",             kicker: "Island",     place: "French Polynesia" },
-    { t: "Galápagos Islands",     kicker: "Archipelago",place: "Ecuador" },
-    { t: "Banff National Park",   kicker: "Nature",     place: "Alberta, Canada" },
+    { t: "Willis Tower",        kicker: "Skyscraper", place: "Chicago, USA" },
+    { t: "Merdeka 118",         kicker: "Skyscraper", place: "Kuala Lumpur, Malaysia" },
+    { t: "Lotte World Tower",   kicker: "Skyscraper", place: "Seoul, South Korea" },
+    { t: "Lakhta Center",       kicker: "Skyscraper", place: "Saint Petersburg, Russia" },
+    { t: "Mount Everest",       kicker: "Mountain",   place: "Nepal–China border" },
+    { t: "K2",                  kicker: "Mountain",   place: "Pakistan–China border" },
+    { t: "Matterhorn",          kicker: "Mountain",   place: "Switzerland–Italy border" },
+    { t: "Denali",              kicker: "Mountain",   place: "Alaska, USA" },
+    { t: "Uluru",               kicker: "Monolith",   place: "Northern Territory, Australia" },
+    { t: "Mount Rainier",       kicker: "Mountain",   place: "Washington, USA" },
+    { t: "Mont Blanc",          kicker: "Mountain",   place: "France–Italy border" },
+    { t: "Hạ Long Bay",         kicker: "Bay",        place: "Quảng Ninh, Vietnam" },
+    { t: "Santorini",           kicker: "Island",     place: "Cyclades, Greece" },
+    { t: "Bora Bora",           kicker: "Island",     place: "French Polynesia" },
+    { t: "Galápagos Islands",   kicker: "Archipelago",place: "Ecuador" },
+    { t: "Banff National Park", kicker: "Nature",     place: "Alberta, Canada" },
     { t: "Yellowstone National Park", kicker: "Nature", place: "Wyoming, USA" },
-    { t: "Yosemite National Park",kicker: "Nature",     place: "California, USA" },
+    { t: "Yosemite National Park",kicker: "Nature",   place: "California, USA" },
     { t: "Plitvice Lakes National Park", kicker: "Nature", place: "Croatia" },
-    { t: "Torres del Paine",      kicker: "Nature",     place: "Patagonia, Chile" },
-    { t: "Serengeti",             kicker: "Savanna",    place: "Tanzania" },
-    { t: "Angel Falls",           kicker: "Waterfall",  place: "Venezuela" },
-    { t: "Niagara Falls",         kicker: "Waterfall",  place: "Canada–USA border" },
-    { t: "Iguazu Falls",          kicker: "Waterfall",  place: "Argentina–Brazil border" },
-    { t: "Salar de Uyuni",        kicker: "Salt flat",  place: "Bolivia" },
-    { t: "Antelope Canyon",       kicker: "Canyon",     place: "Arizona, USA" },
-    { t: "Pamukkale",             kicker: "Travertines",place: "Denizli, Türkiye" },
-    { t: "Cappadocia",            kicker: "Landscape",  place: "Anatolia, Türkiye" },
-    { t: "Wadi Rum",              kicker: "Desert",     place: "Jordan" },
-    { t: "Great Barrier Reef",    kicker: "Reef",       place: "Queensland, Australia" },
-    { t: "Amazon rainforest",     kicker: "Rainforest", place: "South America" },
-    { t: "Lake Baikal",           kicker: "Lake",       place: "Siberia, Russia" },
-    { t: "Lake Titicaca",         kicker: "Lake",       place: "Peru–Bolivia border" },
-    { t: "Sahara",                kicker: "Desert",     place: "North Africa" },
-    { t: "Gobi Desert",           kicker: "Desert",     place: "Mongolia–China" },
-    { t: "Atacama Desert",        kicker: "Desert",     place: "Chile" },
-    { t: "Pompeii",               kicker: "Ruins",      place: "Campania, Italy" },
-    { t: "Acropolis of Athens",   kicker: "Ruins",      place: "Athens, Greece" },
-    { t: "Delphi",                kicker: "Ruins",      place: "Greece" },
-    { t: "Stonehenge",            kicker: "Monument",   place: "Wiltshire, England" },
-    { t: "Terracotta Army",       kicker: "Ruins",      place: "Xi'an, China" },
-    { t: "Persepolis",            kicker: "Ruins",      place: "Fars, Iran" },
-    { t: "Ephesus",               kicker: "Ruins",      place: "İzmir, Türkiye" },
-    { t: "Bagan",                 kicker: "Plains of temples", place: "Mandalay, Myanmar" },
-    { t: "Gyeongbokgung",         kicker: "Palace",     place: "Seoul, South Korea" },
-    { t: "Great Pyramid of Giza", kicker: "Wonder",     place: "Giza, Egypt" },
-    { t: "Great Sphinx of Giza",  kicker: "Monument",   place: "Giza, Egypt" },
-    { t: "Baalbek",               kicker: "Ruins",      place: "Lebanon" },
-    { t: "Sigiriya",              kicker: "Rock fortress", place: "Sri Lanka" },
-    { t: "Ajanta Caves",          kicker: "Caves",      place: "Maharashtra, India" },
-    { t: "Longmen Grottoes",      kicker: "Caves",      place: "Luoyang, China" },
-    { t: "Mount Rushmore",        kicker: "Monument",   place: "South Dakota, USA" },
-    { t: "The Motherland Calls",  kicker: "Statue",     place: "Volgograd, Russia" },
-    { t: "London Eye",            kicker: "Ferris wheel", place: "London, England" },
-    { t: "Arc de Triomphe",       kicker: "Monument",   place: "Paris, France" },
-    { t: "Washington Monument",   kicker: "Obelisk",    place: "Washington D.C., USA" },
-    { t: "Atomium",               kicker: "Landmark",   place: "Brussels, Belgium" },
-    { t: "Space Needle",          kicker: "Tower",      place: "Seattle, USA" }
+    { t: "Torres del Paine",    kicker: "Nature",     place: "Patagonia, Chile" },
+    { t: "Serengeti",           kicker: "Savanna",    place: "Tanzania" },
+    { t: "Angel Falls",         kicker: "Waterfall",  place: "Venezuela" },
+    { t: "Niagara Falls",       kicker: "Waterfall",  place: "Canada–USA border" },
+    { t: "Iguazu Falls",        kicker: "Waterfall",  place: "Argentina–Brazil border" },
+    { t: "Salar de Uyuni",      kicker: "Salt flat",  place: "Bolivia" },
+    { t: "Antelope Canyon",     kicker: "Canyon",     place: "Arizona, USA" },
+    { t: "Pamukkale",           kicker: "Travertines",place: "Denizli, Türkiye" },
+    { t: "Cappadocia",          kicker: "Landscape",  place: "Anatolia, Türkiye" },
+    { t: "Wadi Rum",            kicker: "Desert",     place: "Jordan" },
+    { t: "Great Barrier Reef",  kicker: "Reef",       place: "Queensland, Australia" },
+    { t: "Amazon rainforest",   kicker: "Rainforest", place: "South America" },
+    { t: "Lake Baikal",         kicker: "Lake",       place: "Siberia, Russia" },
+    { t: "Lake Titicaca",       kicker: "Lake",       place: "Peru–Bolivia border" },
+    { t: "Sahara",              kicker: "Desert",     place: "North Africa" },
+    { t: "Gobi Desert",         kicker: "Desert",     place: "Mongolia–China" },
+    { t: "Atacama Desert",      kicker: "Desert",     place: "Chile" },
+    { t: "Pompeii",             kicker: "Ruins",      place: "Campania, Italy" },
+    { t: "Acropolis of Athens", kicker: "Ruins",      place: "Athens, Greece" },
+    { t: "Delphi",              kicker: "Ruins",      place: "Greece" },
+    { t: "Stonehenge",          kicker: "Monument",   place: "Wiltshire, England" },
+    { t: "Terracotta Army",     kicker: "Ruins",      place: "Xi'an, China" },
+    { t: "Persepolis",          kicker: "Ruins",      place: "Fars, Iran" },
+    { t: "Ephesus",             kicker: "Ruins",      place: "İzmir, Türkiye" },
+    { t: "Bagan",               kicker: "Plains of temples", place: "Mandalay, Myanmar" },
+    { t: "Gyeongbokgung",       kicker: "Palace",     place: "Seoul, South Korea" },
+    { t: "Great Pyramid of Giza", kicker: "Wonder",   place: "Giza, Egypt" },
+    { t: "Great Sphinx of Giza",kicker: "Monument",   place: "Giza, Egypt" },
+    { t: "Baalbek",             kicker: "Ruins",      place: "Lebanon" },
+    { t: "Sigiriya",            kicker: "Rock fortress", place: "Sri Lanka" },
+    { t: "Ajanta Caves",        kicker: "Caves",      place: "Maharashtra, India" },
+    { t: "Longmen Grottoes",    kicker: "Caves",      place: "Luoyang, China" },
+    { t: "Mount Rushmore",      kicker: "Monument",   place: "South Dakota, USA" },
+    { t: "The Motherland Calls",kicker: "Statue",     place: "Volgograd, Russia" },
+    { t: "London Eye",          kicker: "Ferris wheel", place: "London, England" },
+    { t: "Arc de Triomphe",     kicker: "Monument",   place: "Paris, France" },
+    { t: "Washington Monument", kicker: "Obelisk",    place: "Washington D.C., USA" },
+    { t: "Atomium",             kicker: "Landmark",   place: "Brussels, Belgium" },
+    { t: "Space Needle",        kicker: "Tower",      place: "Seattle, USA" }
   ];
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
   // ---------- live discovery: near-infinite extra places from Wikipedia ----------
-  // Picks a random curated landmark, reads its real coordinates, then pulls
-  // every geotagged Wikipedia article within 10 km with a photo + intro text.
-  // Anchoring means every batch lands in a real, article-rich area. One batch
-  // (2 sequential requests)/minute keeps us far under Wikimedia's limits.
   const DISCOVERED = [];
   const DISCOVERY_BATCH = 40;
   let lastDiscovery = 0;
@@ -435,12 +429,8 @@
       const d2 = await (await fetch(bulkUrl)).json();
       let found = 0;
       for (const p of (d2.query && d2.query.pages) || []) {
-        if (!p.thumbnail || !p.extract) continue; // need photo + story
-        DISCOVERED.push({
-          t: p.title,
-          kicker: "Discovered",
-          place: "Near " + anchor.place
-        });
+        if (!p.thumbnail || !p.extract) continue;
+        DISCOVERED.push({ t: p.title, kicker: "Discovered", place: "Near " + anchor.place });
         found++;
       }
       statusMsg(found ? "🌍 Discovered " + found + " new place" + (found === 1 ? "" : "s") + " live — now in the pool" : "");
@@ -450,7 +440,6 @@
   }
   discoverBatch();
   setInterval(discoverBatch, 60000);
-  // Fresh finds take the spotlight when available; curated pool fills the rest
   const pickPlace = () => (DISCOVERED.length && Math.random() < 0.6) ? pick(DISCOVERED) : pick(LANDMARKS);
 
   // ----------[element refs] ----------
@@ -462,7 +451,6 @@
     wall: $("wallImg"), thumb: $("wThumb"), wPlace: $("wPlace"), wFact: $("wFact")
   };
 
-  // lock screen date/time
   function tickClock() {
     const now = new Date();
     const dateStr = now.toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long" });
@@ -473,7 +461,6 @@
   tickClock();
   setInterval(tickClock, 15000);
 
-  // ---------- load a landmark ----------
   let current = null;
 
   function statusMsg(msg, isErr) {
@@ -543,12 +530,11 @@
     do { item = pickPlace(); guard++; }
     while (current && item.t === current.t && guard < 8);
     result = await loadLandmark(item);
-    if (result) setLockFromCurrent(); // keep lock screen in sync with the feed
+    if (result) setLockFromCurrent();
   });
 
   els.lock.addEventListener("click", setLockFromCurrent);
 
-  // initial load
   loadLandmark(pickPlace());
 })();
 </script>
