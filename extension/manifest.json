@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Yuzk Geo — Discover the World",
+  "short_name": "Yuzk Geo",
+  "version": "0.1.0",
+  "description": "Every new tab shows a real place from around the world with its story, plus a geography quiz. Learn geo, one tab at a time.",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "icons": {
+    "128": "icon128.png"
+  },
+  "permissions": [],
+  "host_permissions": [
+    "https://en.wikipedia.org/*"
+  ]
+}
